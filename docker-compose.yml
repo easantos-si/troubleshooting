@@ -1,0 +1,37 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.1"
+
+volumes:
+  # MySQL Data
+  troubleshooting-mysql-data:
+    driver: local
+
+services:
+
+    mysql:
+      image: mysql:5.7
+      container_name: troubleshooting-mariadb
+      working_dir: /var/lib/mysql
+      volumes:
+        - troubleshooting-mysql-data:/var/lib/mysql
+      environment:
+        - MYSQL_ROOT_PASSWORD=jDswmdAn6j
+        - MYSQL_DATABASE=troubleshooting
+        - MYSQL_USER=system
+        - MYSQL_PASSWORD=DvDf4uLO
+      ports:
+        - "3306:3306"
+
+    app:
+      image: ambientum/php:7.2-nginx
+      container_name: troubleshooting-webserver
+      working_dir: /var/www/app
+      volumes:
+          - .:/var/www/app
+          - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      ports:
+        - "80:8080"
+      links:
+        - mysql

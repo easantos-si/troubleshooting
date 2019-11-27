@@ -7,10 +7,11 @@ class Contract extends Model {
     protected $table = 'contract';
     protected $primaryKey = 'contract_id';
     public $timestamps = false;
+    public $incrementing = false;
 
     public function customer()
     {
-        return $this->belongsTo('Model\Customer\Customer', 'customer_id', 'customer_id');
+        return $this->belongsTo('Model\Customer\Customer')->where('customer_id', $this->customer_id);
     }
 
     public function items()
